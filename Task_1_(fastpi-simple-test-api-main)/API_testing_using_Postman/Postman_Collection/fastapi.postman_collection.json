@@ -1,0 +1,554 @@
+{
+	"info": {
+		"_postman_id": "c3dfda8c-138a-4077-96a9-92020e525418",
+		"name": "fastapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23468089"
+	},
+	"item": [
+		{
+			"name": "root",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body is correct\", function () {\r",
+							"    pm.response.to.have.body('{\"message\":\"Fast API in Python\"}');\r",
+							"});\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"User validation\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].name).to.eql('Marcio');\r",
+							"    pm.expect(jsonData[1].mail).to.eql('example_leandro@mail.com');\r",
+							"    pm.expect(jsonData[0].phone).to.eql('98769878');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type is json\", function () {\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json\");\r",
+							"});\r",
+							"pm.test(\"uvicorn server check\", function () {\r",
+							"    pm.response.to.have.header(\"server\",\"uvicorn\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/user",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "question",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Question check based on position\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(1);\r",
+							"    pm.expect(jsonData.position).to.eql(1);\r",
+							"    pm.expect(jsonData.question).to.eql('Which car model/category are you looking for?');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type is json\", function () {\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json\");\r",
+							"});\r",
+							"pm.test(\"uvicorn server check\", function () {\r",
+							"    pm.response.to.have.header(\"server\",\"uvicorn\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseurl}}/question/:position",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"question",
+						":position"
+					],
+					"variable": [
+						{
+							"key": "position",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "question Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Error check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.detail).to.eql('Error')\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type is json\", function () {\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json\");\r",
+							"});\r",
+							"pm.test(\"uvicorn server check\", function () {\r",
+							"    pm.response.to.have.header(\"server\",\"uvicorn\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseurl}}/question/:position",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"question",
+						":position"
+					],
+					"variable": [
+						{
+							"key": "position",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "answer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"pm.variables.get(\"variable_key\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code name has string\", function () {\r",
+							"    pm.response.to.have.status(\"created\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"user_id\": 2,\r\n  \"answers\": [\r\n    {      \r\n      \"question_id\": 4,\r\n      \"alternative_id\": 9\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseurl}}/answer",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"answer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "alternatives/question_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Alternatives check based on question_id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].question_id).to.eql(3);\r",
+							"    pm.expect(jsonData[1].alternative).to.eql('fossil');\r",
+							"    pm.expect(jsonData[2].alternative).to.eql('bio');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type is json\", function () {\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/alternatives/:question_id",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"alternatives",
+						":question_id"
+					],
+					"variable": [
+						{
+							"key": "question_id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "alternatives/question_id Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Alternatives check based on question_id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].question_id).to.eql(2);\r",
+							"    pm.expect(jsonData[1].alternative).to.eql('average');\r",
+							"    pm.expect(jsonData[2].alternative).to.eql('high');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type is json\", function () {\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/alternatives/:question_id",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"alternatives",
+						":question_id"
+					],
+					"variable": [
+						{
+							"key": "question_id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "alternatives/question_id Copy 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type is json\", function () {\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/alternatives/:question_id",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"alternatives",
+						":question_id"
+					],
+					"variable": [
+						{
+							"key": "question_id",
+							"value": "8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "result/user_id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Result validation based on user_id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].user.name).to.eql('Marcio');\r",
+							"    pm.expect(jsonData[1].name).to.eql('Porsche Taycan');\r",
+							"    pm.expect(jsonData[2].name).to.eql('Vauxhall e-Corsa');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type is json\", function () {\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/result/:user_id",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"result",
+						":user_id"
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "result/user_id Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Result validation based on user_id\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].name).to.eql('Porsche Taycan');\r",
+							"    pm.expect(jsonData[1].name).to.eql('Vauxhall e-Corsa');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-type is json\", function () {\r",
+							"   pm.response.to.be.header(\"Content-Type\", \"application/json\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/result/:user_id",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"result",
+						":user_id"
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": "11"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "http://localhost:8000"
+		}
+	]
+}
